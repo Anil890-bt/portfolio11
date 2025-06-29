@@ -1,462 +1,675 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
-    <!-- bootstrap 5 cdn links  -->
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-   <!-- fontawesome cdn link -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-   <!-- favicon link -->
-   <link rel="icon" type="icon" href="">
-<!-- custuom css -->
-   <link rel="stylesheet" href="style.css">
-   <!-- js link -->
-<!-- <link rel="js" href="js/main.js"> -->
+    <title>💕 A Special Surprise For You 💕</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating Hearts Animation */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff69b4;
+            font-size: 20px;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b9d, #ffa8cc, #ffb3d9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: all 1s ease-in-out;
+        }
+
+        .welcome-screen.hidden {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+        }
+
+        .welcome-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .enter-btn {
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.4);
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .enter-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 20, 147, 0.6);
+        }
+
+        /* Main Content */
+        .main-content {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-in-out;
+            position: relative;
+            z-index: 2;
+        }
+
+        .main-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .main-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: #d63384;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 2px 2px 4px rgba(0,0,0,0.1), 0 0 10px #ff69b4; }
+            to { text-shadow: 2px 2px 4px rgba(0,0,0,0.1), 0 0 20px #ff1493, 0 0 30px #ff1493; }
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #6f42c1;
+            margin-bottom: 2rem;
+        }
+
+        /* Interactive Sections */
+        .section {
+            background: rgba(255, 255, 255, 0.9);
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 900px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .section-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #d63384;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Love Notes */
+        .love-notes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .note {
+            background: linear-gradient(135deg, #ffe4e6, #ffc0cb);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: rotate(-2deg);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 5px solid #ff69b4;
+        }
+
+        .note:nth-child(even) {
+            transform: rotate(2deg);
+        }
+
+        .note:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .note-text {
+            font-style: italic;
+            color: #6f42c1;
+            line-height: 1.6;
+        }
+
+        /* Memory Game */
+        .memory-game {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 400px;
+            margin: 2rem auto;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 2rem;
+        }
+
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+
+        .memory-card.flipped {
+            background: white;
+            transform: rotateY(180deg);
+        }
+
+        /* Photo Collage */
+        .photo-collage {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .photo-frame {
+            position: relative;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transform: rotate(-1deg);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .photo-frame:nth-child(even) {
+            transform: rotate(1deg);
+        }
+
+        .photo-frame:hover {
+            transform: rotate(0deg) scale(1.05);
+            z-index: 10;
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #ffe4e6, #ffc0cb);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d63384;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        /* Love Letter */
+        .love-letter {
+            background: linear-gradient(135deg, #fff5f5, #ffe4e6);
+            border: 2px dashed #ff69b4;
+            padding: 2rem;
+            border-radius: 15px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: #6f42c1;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        /* Interactive Buttons */
+        .interactive-btn {
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
+        }
+
+        .interactive-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 20, 147, 0.4);
+        }
+
+        /* Surprise Reveal */
+        .surprise-reveal {
+            text-align: center;
+            padding: 3rem;
+            background: linear-gradient(135deg, #ffe4e6, #ffc0cb);
+            border-radius: 20px;
+            margin: 2rem 0;
+        }
+
+        .surprise-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #d63384;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .welcome-text {
+                font-size: 2rem;
+            }
+            
+            .memory-game {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 300px;
+            }
+            
+            .section {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<!-- navbar start -->
-<div class=" container col-sm-12 mt-4">
-    <nav class="navbar navbar-expand-md navbar-light bg-  " >
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#"></a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item ms-5">
-                <a class="nav-link active" href="#about">About</a>
-              </li>
-              <li class="nav-item ms-5">
-                <a class="nav-link active" href="#skills">Blog</a>
-              </li>
-              <li class="nav-item ms-5">
-                <a class="nav-link active" href="project.html">Projects</a>
-              </li>
-              <li class="nav-item  ms-5">
-                <a class="nav-link active" href="#contact">Contact</a>
-              </li>
-              
-          </div>
-           <!-- <li>
-          <a href="#"><i class="fa-brands fa-github fa-2xl" style="color: #000000;"></i></a>
-        </li>
-        <li>
-          <a href="#"> <i class="fa-brands fa-instagram fa-2xl" style="color: #000000;"></i></a>
-        </li>
-        <li>
-          <a href="#"><i class="fa-brands fa-twitter fa-2xl" style="color: #000000;"></i></a>
-        </li>
-        <li>
-          <a href="#"><i class="fa-brands fa-linkedin fa-2xl" style="color: #000000;"></i></a>
-        </li> -->
+    <!-- Floating Hearts -->
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-text">
+            💕 I have something special for you... 💕
         </div>
-        <li>
-          <a href="https://github.com/Anil890-bt"><i class="fa-brands fa-github fa-2xl" style="color: #000000;"></i></a>
-        </li>
-        <li>
-          <a href="https://www.instagram.com/"> <i class="fa-brands fa-instagram fa-2xl" style="color: #000000;"></i></a>
-        </li>
-        <li>
-          <a href="https://twitter.com/home"><i class="fa-brands fa-twitter fa-2xl" style="color: #000000;"></i></a>
-        </li>
-        <li>
-          <a href="#"><i class="fa-brands fa-linkedin fa-2xl" style="color: #000000;"></i></a>
-        </li>
-      </nav>
-</div>
-
-
-<!-- banner section -->
-
-<div class="container-fluid">
-  <div class="row text-center">
-    <div class=" lines col-sm-6">
-      <h3 class="animate-charcter">I'm  a FullStack Developer</h2>
-      <h1 class="text-center mt-2"> Turning Vision Into Reality With Code And desgin</h1>
-      <h4 class="mt-0">Website bana du aisee na dekhi ho jasii </h4>
-      
-    
-<button class="ms-5"> <h3 class="#about">About me </h3></button>
-<button class="ms-5"> <h3 class="#contact">Contact Me</h3></button>
+        <button class="enter-btn" onclick="startSurprise()">
+            <i class="fas fa-heart"></i> Click to Enter <i class="fas fa-heart"></i>
+        </button>
     </div>
-    <div class="col-md-5">
-     <div class="pic">
-      <img src ="img5.jpg">
-     </div>
-    </div>
-  </div>
-</div>
 
-<!-- dev section -->
-
-<div class="container-fluid mt-5 hero-contant">
-  <div class="row">
-          <div class="about-card col-sm-3 mt-5">
-
-            <div class="card">
-              <img src="icon-1.svg" width="52" height="52" style="align-self: center;">
-            </div>
-
-            <h3 class="h4 card-title">Web Developer</h3>
-
-            <p class="card-text">
-              "I specialize in front-end and back-end web development, utilizing the latest technologies to create responsive and user-friendly websites and web applications."
-            </p>
-
-          </div>
-
-
-      
-          <div class="about-card col-md-3 mt-5">
-
-            <div class="card">
-              <img src="icon-2.svg" width="52" height="52" style="align-self: center;">
-            </div>
-
-            <h3 class="h4 card-title">Coding</h3>
-
-            <p class="card-text">
-              "Coding is a journey of continuous learning, where every bug fixed and every project completed brings new insights and growth."
-            </p>
-
-          </div>
-        
-          <div class="about-card col-md-3 mt-5">
-
-            <div class="card">
-              <img src="icon-3.svg" width="52" height="52" style="align-self: center;">
-            </div>
-
-            <h3 class="h4 card-title">Development</h3>
-
-            <p class="card-text">
-              "Development unleashes the boundless potential within each of us, fostering creativity, innovation, and the realization of dreams."
-            </p>
-
-          </div>
-      
-
-      
-          <div class="about-card col-md-3 mt-5">
-
-            <div class="card">
-              <img src="icon-4.svg" width="52" height="52" style="align-self: center;">
-            </div>
-
-            <h3 class="h4 card-title">Full Stack Developer</h3>
-
-            <p class="card-text">
-              Full-stack developers are the coding renaissance people of the web, combining artistic flair with technical prowess to create digital marvels."
-            </p>
-
-          </div>
-        
-
-</div> 
- </div>
-</div>
-
-
-  <!--  dev section exit-->
-
-  <!-- loding bar section -->
-
-  <!-- <div class="container-fluid" style="height: 600px;">
-    <div class="row">
-      <h2 class="#about mt-5">About Me</h2>
-      
-      <div class="tab">
-        <button class="tablinks" onmouseover="openCity(event, 'London')"><h3>About</h3></button>
-        <button class="tablinks" onmouseover="openCity(event, 'Paris')"><h3>Projects</h3></button>
-        <button class="tablinks" onmouseover="openCity(event, 'Tokyo')"><h3>Experience</h3></button>
-      </div>
-      
-      <div id="London" class="tabcontent">
-        
-        <p style="font-weight: bold;">Hii My name is Anil.I am a Fullstack Developer and I'm very passionate and Dedicated to my work. with Zero Work Experience as a professional Web Developer. I have  acquried the skills and knowledge necessary to make your project a  Sucess.</p>
-
-
-        <li><i class="fa-solid fa-cake-candles fa-lg" style="color: #000000;"></i><span class="ms-3" style="font-weight: bold;">D.O.B :12-01-2002</span></li>
-
-        <li><i class="fa-solid fa-location-dot fa-lg" style="color: #000000;"></i><span class="ms-3 mt-2 " style="font-weight: bold;">Location :      india delhi</span></li>
-
-        <li><i class="fa-solid fa-graduation-cap fa-lg" style="color: #000000;"></i><span class="ms-1 mt-2" style="font-weight: bold;">Study : Shree ram commerce college   </span></li>
-
-        <li><i class="fa-solid fa-envelope fa-lg" style="color: #000000;"></i><span class="ms-3" style="font-weight: bold;">Email : 78anil56yadav@gmail.com</span></li>
-
-        <li><i class="fa-solid fa-calendar-days fa-lg" style="color: #000000;"></i><span class="ms-3" style="font-weight: bold;"></span>Age : 21</li>
-
-        <li><i class="fa-solid fa-phone fa-lg" style="color: #000000;"></i><span class="ms-3" style="font-weight: bold;"></span>Phone : +91 9318888888</li>
-      </div>
-      
-      
-       
-      <div id="Paris" class="tabcontent">
-        <h2 style="font-weight: bold;">Projects</h2>
-       <h4 class="text-center mt-4">these are the projects I worked On :</h4>
-       <h5 class="mt-4"> < Worked on a project Using HTML only > </h5>
-       <h5 class="mt-4"> < Tired to make a clone Of condermantra wesite using HTML and CSS > </h5>
-       <h5 class="mt-4"> < Tried to make a clone of Flipkart website using HTML , CSS , BootStrap > </h5>
-       <h5 class="mt-4"> < I make A live projects of ecommerc site ShopLuv > </h5>   
-        <h5 class="mt-4"> < Worked On two Projects using HTML CSS Bootstrap > </h5>
-              
-       
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="header">
+            <h1 class="main-title">My Beautiful Love 💕</h1>
+            <p class="subtitle">This page is created with all my love, just for you ✨</p>
         </div>
 
-      
-      <div id="Tokyo" class="tabcontent">
-        <h3 class="text-center">Experience</h3>
-        <h3 class="mt-5"> Experience toh hai nhi bilkul bhi   </h3>
-      </div>
-      </div>
-      </div>
-     -->
-      <!-- <div class="clearfix"></div> -->
+        <!-- Love Notes Section -->
+        <div class="section">
+            <h2 class="section-title">💌 Love Notes Just For You</h2>
+            <div class="love-notes">
+                <div class="note" onclick="animateNote(this)">
+                    <p class="note-text">"Every moment with you feels like a fairytale come true. You make my world brighter just by being in it."</p>
+                </div>
+                <div class="note" onclick="animateNote(this)">
+                    <p class="note-text">"Your smile is my favorite sight, your laugh is my favorite sound, and being with you is my favorite feeling."</p>
+                </div>
+                <div class="note" onclick="animateNote(this)">
+                    <p class="note-text">"I love how you make ordinary moments feel extraordinary. You're my greatest adventure."</p>
+                </div>
+                <div class="note" onclick="animateNote(this)">
+                    <p class="note-text">"You're not just my girlfriend, you're my best friend, my partner in crime, and my forever love."</p>
+                </div>
+            </div>
+        </div>
 
+        <!-- Memory Game -->
+        <div class="section">
+            <h2 class="section-title">💖 Love Memory Game</h2>
+            <p style="text-align: center; margin-bottom: 1rem; color: #6f42c1;">Match the hearts to reveal a special message!</p>
+            <div class="memory-game" id="memoryGame">
+                <!-- Game cards will be generated by JavaScript -->
+            </div>
+            <div id="gameMessage" style="text-align: center; margin-top: 1rem; font-size: 1.2rem; color: #d63384;"></div>
+        </div>
 
+        <!-- Photo Collage -->
+        <div class="section">
+            <h2 class="section-title">📸 Our Beautiful Memories</h2>
+            <div class="photo-collage">
+                <div class="photo-frame" onclick="addSparkles(this)">
+                    <div class="photo-placeholder">
+                        <div>
+                            <i class="fas fa-heart" style="font-size: 2rem; color: #ff69b4;"></i>
+                            <p>Our First Date<br>💕</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo-frame" onclick="addSparkles(this)">
+                    <div class="photo-placeholder">
+                        <div>
+                            <i class="fas fa-star" style="font-size: 2rem; color: #ff69b4;"></i>
+                            <p>That Perfect Day<br>✨</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo-frame" onclick="addSparkles(this)">
+                    <div class="photo-placeholder">
+                        <div>
+                            <i class="fas fa-kiss" style="font-size: 2rem; color: #ff69b4;"></i>
+                            <p>Our Sweet Moments<br>💋</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo-frame" onclick="addSparkles(this)">
+                    <div class="photo-placeholder">
+                        <div>
+                            <i class="fas fa-infinity" style="font-size: 2rem; color: #ff69b4;"></i>
+                            <p>Forever & Always<br>∞</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 1rem; color: #6f42c1; font-style: italic;">
+                Click on each memory to add some sparkle! ✨
+            </p>
+        </div>
 
+        <!-- Interactive Love Letter -->
+        <div class="section">
+            <h2 class="section-title">💕 A Letter From My Heart</h2>
+            <div class="love-letter" id="loveLetter">
+                <p>My Dearest Love,</p>
+                <p>I created this special page because words alone can't express how much you mean to me. Every day with you is a gift, and I wanted to give you something that shows just a fraction of the love I have for you.</p>
+                <p>You are my sunshine on cloudy days, my calm in the storm, and my greatest joy. Thank you for being you, for being mine, and for making life so beautiful.</p>
+                <p>All my love, forever and always 💕</p>
+            </div>
+            <div style="text-align: center;">
+                <button class="interactive-btn" onclick="addHeartRain()">
+                    <i class="fas fa-heart"></i> Send Love
+                </button>
+                <button class="interactive-btn" onclick="changeBackground()">
+                    <i class="fas fa-palette"></i> Change Magic
+                </button>
+                <button class="interactive-btn" onclick="playLoveMusic()">
+                    <i class="fas fa-music"></i> Love Song
+                </button>
+            </div>
+        </div>
 
-
-
-
-
-
-
-
-
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-12" id="about">
-      <h2 class="text-center mt-5"> ABOUT ME </h2>
-    </div>
-
-
-    <div class="col-md-6">
-      <h3 class="mt-5 ms-5">Get to know me !</h3>
-<h5 class="mt-5 ms-5">Hii My name is <b>Anil </b> I am a <b>Fullstack Developer</b> and I'm very passionate and Dedicated to my work. with Zero Work Experience as a professional Web Developer. I have  acquried the skills and knowledge necessary to make your project a  Sucess.</h5>
-
-
-<h5 class="mt-5 ms-5 ">I'm a <b>FullStack Developer</b> bulding the Front-end and back-end of websites that leads to the success of the overall product. check out some of my work in the <b>Projects</b> Section.</h5>
-
-<h5 class="mt-5 ms-5">I also like sharing content related to the stuff that i have learned over the years in <b>Web Development</b>so it can help other people of the Dev community.Feel free to connect or follow me on My <a href="#"><b>Linkedin</b></a> where i post useful content related to web development and programming.</h5>
-
-<h5 class="mt-5 ms-5">I'm open to <b>Job</b> opportunities where i can contribute,learn and grow. if you have a good opporunity that matches my skills and experience then don't hesitate to <b>contact</b> me.</h5>
-
-</div>
-
-<div class="col-md-6"  >
-  <div class="pipct">
-  <img src="img1.jpg">
-</div>
-</div>
-
-
-</div>
-</div>
-
-<div class="container-fluid">
-  <div class="row">
-<div class="col-md-12 mt-5" id="skills">
-    <h2 class="mt-5 ms-5">{ < Skills > }</h2>
-</div>
-
-    <div class="col-md-3 mt-3">
-      <div class="card">
-        <img src="html.jpeg" class="card-img" alt="...">
-      </div>
-      <h5 class="mt-5 ms-5">  < HTML ></h5>
-    </div>
-
-    
-    <div class=" col-md-3 mt-4">
-      <div class="card">
-        <img src="css.png" class="card-img" alt="...">
-      </div>
-      <h5 class="mt-5 ms-5">  { C S S }</h5>
-    </div>
-
-
-    <div class=" col-md-3  mt-4">
-      <div class="card">
-        <img src="boot.jpeg" class="card-img" alt="...">
-      </div>
-      <h5 class="mt-5 ms-5">  BOOTSTARP </h5>
-    </div>
-
-    
-    <div class="col-md-3 mt-5">
-      <div class="card">
-        <img src="js.png" class="card-img" alt="...">
-      </div>
-      <h5 class="mt-5 ms-5">  JAVASCRIPT </h5> 
-      <h5 class="mt-4 ms-5"> While(alive){<br>
-        eat();<br>
-        sleep();<br>
-        code();<br>
-        repeat();<br>
-      } </h5>
-    </div>
-    
-  
-
-
-
-
-
-
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-<div class="container-fluid">
-  <div class="row text-center">
-    <div class="col-md-12 mt-5"><h2 class="text-center">POROJECTS</h2> </div>
-
-    <div class="col-md-12"> <h4 class="text-center mt-5">these are the projects I worked On :</h4>
-      <h5 class="mt-4"> < Worked on a project Using HTML only > </h5>
-      <h5 class="mt-4"> < Tired to make a clone Of condermantra wesite using HTML and CSS > </h5>
-      <h5 class="mt-4"> < Tried to make a clone of Flipkart website using HTML , CSS , BootStrap > </h5>
-      <h5 class="mt-4"> < I make A live projects of ecommerc site ShopLuv > </h5>   
-       <h5 class="mt-4"> < Worked On two Projects using HTML CSS Bootstrap > </h5></div>
-</div>
-</div>
-
-
-
-<div class="container-fluid mt-5">
-  <div class="row">
-    <div class="col-md-6">
-      <div class="card">
-        <img src="new1.png" class="card-img" alt="...">
-      </div>
-    </div>
-
-
-
-    <div class="col-md-6">
-      <div class="card">
-        <img src="new2.png" class="card-img" alt="...">
-      </div>
-      </div>
-
-
-      <div class="col-md-6 mt-4">
-        <div class="card" >
-          <img src="new3.png" class="card-img" alt="...">
+        <!-- Final Surprise -->
+        <div class="section surprise-reveal">
+            <div class="surprise-text">🎉 The Biggest Surprise 🎉</div>
+            <p style="color: #6f42c1; font-size: 1.3rem; margin-bottom: 2rem;">
+                The biggest surprise isn't this website... it's that I get to love someone as amazing as you every single day! 💕
+            </p>
+            <button class="interactive-btn" style="font-size: 1.2rem; padding: 15px 30px;" onclick="finalSurprise()">
+                <i class="fas fa-gift"></i> One More Surprise!
+            </button>
         </div>
     </div>
 
+    <script>
+        // Floating Hearts Animation
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💕';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.getElementById('floatingHearts').appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
 
-    <div class="col-md-6 mt-4">
-      <div class="card" >
-        <img src="new4.png" class="card-img" alt="...">
-      </div>
-    </div>
+        // Start floating hearts
+        setInterval(createFloatingHeart, 800);
 
+        // Welcome Screen
+        function startSurprise() {
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            const mainContent = document.getElementById('mainContent');
+            
+            welcomeScreen.classList.add('hidden');
+            
+            setTimeout(() => {
+                mainContent.classList.add('visible');
+                initMemoryGame();
+            }, 1000);
+        }
 
-  </div>
-</div>
+        // Animate Love Notes
+        function animateNote(note) {
+            note.style.transform = 'scale(1.1) rotate(0deg)';
+            note.style.background = 'linear-gradient(135deg, #ff69b4, #ff1493)';
+            note.style.color = 'white';
+            
+            setTimeout(() => {
+                note.style.transform = '';
+                note.style.background = '';
+                note.style.color = '';
+            }, 1500);
+        }
 
+        // Memory Game
+        const gameSymbols = ['💕', '💖', '💗', '💝', '💕', '💖', '💗', '💝'];
+        let flippedCards = [];
+        let matchedPairs = 0;
 
+        function initMemoryGame() {
+            const gameContainer = document.getElementById('memoryGame');
+            const shuffledSymbols = gameSymbols.sort(() => Math.random() - 0.5);
+            
+            gameContainer.innerHTML = '';
+            
+            shuffledSymbols.forEach((symbol, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.dataset.symbol = symbol;
+                card.dataset.index = index;
+                card.innerHTML = '💌';
+                card.onclick = () => flipCard(card);
+                gameContainer.appendChild(card);
+            });
+        }
 
+        function flipCard(card) {
+            if (card.classList.contains('flipped') || flippedCards.length === 2) return;
+            
+            card.classList.add('flipped');
+            card.innerHTML = card.dataset.symbol;
+            flippedCards.push(card);
+            
+            if (flippedCards.length === 2) {
+                setTimeout(checkMatch, 1000);
+            }
+        }
 
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            
+            if (card1.dataset.symbol === card2.dataset.symbol) {
+                matchedPairs++;
+                if (matchedPairs === 4) {
+                    document.getElementById('gameMessage').innerHTML = '🎉 You found all the matches! Just like how we\'re a perfect match! 💕';
+                }
+            } else {
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                card1.innerHTML = '💌';
+                card2.innerHTML = '💌';
+            }
+            
+            flippedCards = [];
+        }
 
+        // Photo Frame Sparkles
+        function addSparkles(frame) {
+            const sparkles = ['✨', '💫', '⭐', '🌟'];
+            
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.innerHTML = sparkles[Math.floor(Math.random() * sparkles.length)];
+                    sparkle.style.position = 'absolute';
+                    sparkle.style.top = Math.random() * 100 + '%';
+                    sparkle.style.left = Math.random() * 100 + '%';
+                    sparkle.style.fontSize = '1.5rem';
+                    sparkle.style.pointerEvents = 'none';
+                    sparkle.style.animation = 'float 2s linear';
+                    
+                    frame.appendChild(sparkle);
+                    
+                    setTimeout(() => sparkle.remove(), 2000);
+                }, i * 200);
+            }
+        }
 
+        // Interactive Features
+        function addHeartRain() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    createFloatingHeart();
+                }, i * 100);
+            }
+        }
 
+        const backgrounds = [
+            'linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%)',
+            'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+            'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)',
+            'linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)'
+        ];
+        let currentBg = 0;
 
+        function changeBackground() {
+            currentBg = (currentBg + 1) % backgrounds.length;
+            document.body.style.background = backgrounds[currentBg];
+        }
 
-<div class="container-fluid" style="background-color: #000000; height: 200px; margin-top: 80px;">
-  <div class="row">
-    <div class="col-md-6 footer" id="contact">
-  <h2 class="ms-4 mt-4">Let's Talk</h2>
+        function playLoveMusic() {
+            // Create a simple musical note animation
+            const notes = ['🎵', '🎶', '🎼'];
+            const musicContainer = document.createElement('div');
+            musicContainer.style.position = 'fixed';
+            musicContainer.style.top = '50%';
+            musicContainer.style.left = '50%';
+            musicContainer.style.transform = 'translate(-50%, -50%)';
+            musicContainer.style.fontSize = '3rem';
+            musicContainer.style.zIndex = '1000';
+            
+            notes.forEach((note, index) => {
+                setTimeout(() => {
+                    musicContainer.innerHTML = note;
+                    document.body.appendChild(musicContainer);
+                    
+                    if (index === notes.length - 1) {
+                        setTimeout(() => musicContainer.remove(), 1000);
+                    }
+                }, index * 500);
+            });
+            
+            alert('🎵 Imagine our favorite love song playing right now! 💕');
+        }
 
-  <h5 class="ms-4 mt-4">Every project Starts with a chat.I'm leads our client conversations and will be happy to discuss your project. he will also pull in the right people from the team when needed </h5>
-
-
-    </div>
-
- <div class="col-md-2 ">
-     
-    </div>
-    
-    <div class="col-md-3 left mt-5">
-      <li>Email :<a href="#">78anil56yadav@gmail.com</a>
-      </li>
-      <li>phone : <a href="#"> +91 9319970665</li></a>
-     
-      <li class="mt-4"><a href="#"><i class="fa-brands fa-linkedin fa-xl"></i></a></li>
-        
-    </div>
-    
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-  <script>
-    function openCity(evt, cityName) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      tablinks = document.getElementsByClassName("tablinks");
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      document.getElementById(cityName).style.display = "block";
-      evt.currentTarget.className += " active";
-    }
-    </script> -->
-
-  <!-- bootstrap 5 cdn link -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+        function finalSurprise() {
+            const surpriseMessages = [
+                "You are the most beautiful person, inside and out! 💕",
+                "Thank you for being my everything! 🌟",
+                "I love you more than words can express! 💖",
+                "You make every day feel like a celebration! 🎉",
+                "Forever grateful to have you in my life! 💝"
+            ];
+            
+            const randomMessage = surpriseMessages[Math.floor(Math.random() * surpriseMessages.length)];
+            
+            // Create surprise popup
+            const popup = document.createElement('div');
+            popup.style.position = 'fixed';
+            popup.style.top = '50%';
+            popup.style.left = '50%';
+            popup.style.transform = 'translate(-50%, -50%)';
+            popup.style.background = 'linear-gradient(135deg, #ff69b4, #ff1493)';
+            popup.style.color = 'white';
+            popup.style.padding = '2rem';
+            popup.style.borderRadius = '20px';
+            popup.style.textAlign = 'center';
+            popup.style.fontSize = '1.5rem';
+            popup.style.fontFamily = 'Dancing Script, cursive';
+            popup.style.zIndex = '2000';
+            popup.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)';
+            popup.style.animation = 'pulse 1s infinite';
+            
+            popup.innerHTML = `
+                <div>${randomMessage}</div>
+                <button onclick="this.parentElement.remove()" style="margin-top: 1rem; padding: 10px 20px; background: white; color: #ff1493; border: none; border-radius: 15px; cursor: pointer; font-size: 1rem;">
+                    Close 💕
+                </button>
+            `;
+            
+            document.body.appendChild(popup);
+            addHeartRain();
+        }
+    </script>
 </body>
 </html>
